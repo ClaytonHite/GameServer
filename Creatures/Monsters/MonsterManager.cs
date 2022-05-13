@@ -27,9 +27,9 @@ namespace Game_Server
                 {
                     int posY = i / MapSize;
                     int posX = i % MapSize;
+                    Vector2 pos = new Vector2(posX, posY);
                     int findMonster = Convert.ToInt32(LoadFile[i]);
                     Monster spawnMob = MonsterData.GetMonster(findMonster, posX, posY);
-                    new GameObject(new Vector2(posX, posY), "Monster");
                     Monster.AddMonster(spawnMob);
                 }
             }
@@ -38,6 +38,7 @@ namespace Game_Server
         {
             monsters.Add(monsterID, MonsterData.GetMonster(findMonster, posX, posY));
             Console.WriteLine(DateTime.Now + $" -- {monsters[monsterID].monsterName} has respawned!");
+            monsters[monsterID].monsterID = monsterID;
             string respawnMonster = (monsters[monsterID].monsterName + "," +
                         Convert.ToString(monsterID) + "," +
                         Convert.ToString(monsters[monsterID].monsterAvatar) + "," +
@@ -47,12 +48,18 @@ namespace Game_Server
                         Convert.ToString(monsters[monsterID].monsterPosition.Y)
                         );
             ServerSend.MonsterUpdate(true, respawnMonster, -1, -1);
+            foreach (Player player in Player.players.Values)
+            {
+                TargetFinder.Update(player);
+            }
         }
         public static void Death(int damage, int monsterID, int _fromClient)
         {
             Console.WriteLine(DateTime.Now + $" -- {monsters[monsterID].monsterName} has been killed by {Player.players[_fromClient].username}!");
             Reset(monsterID, monsters[monsterID].monsterAvatar, (int)monsters[monsterID].spawnPosition.X, (int)monsters[monsterID].spawnPosition.Y);
             int addExperienceToPlayer = monsters[monsterID].monsterExperienceGiven;
+            TargetFinder.RefreshAfterMonsterDeath(monsters[monsterID]);
+            Collider.DestorySelf(monsters[monsterID].monsterPosition);
             monsters.Remove(monsterID);
             LevelUp.AddExperienceToPlayer(_fromClient, addExperienceToPlayer);
             ServerSend.MonsterUpdate(false, Convert.ToString(monsterID), damage, _fromClient);
@@ -61,7 +68,7 @@ namespace Game_Server
         {
             Task.Run(async delegate
             {
-                await Task.Delay(secondsBetweenSpawn * 1000);
+                await Task.Delay(secondsBetweenSpawn * 5000);
                 Spawn(monsterID, findMonster, posX, posY);
             });
         }

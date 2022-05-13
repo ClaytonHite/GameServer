@@ -12,7 +12,9 @@ namespace Game_Server
         public static int MonsterStatCount = 16;
         public static Monster GetMonster(int image, int posX, int posY)
         {
+            Vector2 pos = new Vector2(posX, posY);
             Monster monster = new Monster();
+            monster.collider.Position = pos;
             if (image == 500)
             {
                 monster.monsterName = "Rat";
@@ -30,8 +32,8 @@ namespace Game_Server
                 monster.maxHitPoints = 10;
                 monster.currentManaPoints = 0;
                 monster.maxManaPoints = 0;
-                monster.monsterPosition = new Vector2(posX, posY);
-                monster.spawnPosition = new Vector2(posX, posY);
+                monster.monsterPosition = pos;
+                monster.spawnPosition = pos;
                 monster.monsterExperienceGiven = 10000;
                 return monster;
             };
@@ -52,8 +54,8 @@ namespace Game_Server
                 monster.maxHitPoints = 20;
                 monster.currentManaPoints = 0;
                 monster.maxManaPoints = 0;
-                monster.monsterPosition = new Vector2(posX, posY);
-                monster.spawnPosition = new Vector2(posX, posY);
+                monster.monsterPosition = pos;
+                monster.spawnPosition = pos;
                 monster.monsterExperienceGiven = 10;
                 return monster;
             };
@@ -74,8 +76,8 @@ namespace Game_Server
                 monster.maxHitPoints = 40;
                 monster.currentManaPoints = 0;
                 monster.maxManaPoints = 0;
-                monster.monsterPosition = new Vector2(posX, posY);
-                monster.spawnPosition = new Vector2(posX, posY);
+                monster.monsterPosition = pos;
+                monster.spawnPosition = pos;
                 monster.monsterExperienceGiven = 45;
                 return monster;
             };
@@ -96,8 +98,8 @@ namespace Game_Server
                 monster.maxHitPoints = 65;
                 monster.currentManaPoints = 0;
                 monster.maxManaPoints = 0;
-                monster.monsterPosition = new Vector2(posX, posY);
-                monster.spawnPosition = new Vector2(posX, posY);
+                monster.monsterPosition = pos;
+                monster.spawnPosition = pos;
                 monster.monsterExperienceGiven = 65;
                 return monster;
             };
@@ -118,8 +120,8 @@ namespace Game_Server
                 monster.maxHitPoints = 100;
                 monster.currentManaPoints = 0;
                 monster.maxManaPoints = 0;
-                monster.monsterPosition = new Vector2(posX, posY);
-                monster.spawnPosition = new Vector2(posX, posY);
+                monster.monsterPosition = pos;
+                monster.spawnPosition = pos;
                 monster.monsterExperienceGiven = 75;
                 return monster;
             };
@@ -140,8 +142,8 @@ namespace Game_Server
                 monster.maxHitPoints = 120;
                 monster.currentManaPoints = 0;
                 monster.maxManaPoints = 0;
-                monster.monsterPosition = new Vector2(posX, posY);
-                monster.spawnPosition = new Vector2(posX, posY);
+                monster.monsterPosition = pos;
+                monster.spawnPosition = pos;
                 monster.monsterExperienceGiven = 200;
                 return monster;
             };
@@ -162,8 +164,8 @@ namespace Game_Server
                 monster.maxHitPoints = 150;
                 monster.currentManaPoints = 0;
                 monster.maxManaPoints = 0;
-                monster.monsterPosition = new Vector2(posX, posY);
-                monster.spawnPosition = new Vector2(posX, posY);
+                monster.monsterPosition = pos;
+                monster.spawnPosition = pos;
                 monster.monsterExperienceGiven = 250;
                 return monster;
             };
@@ -184,8 +186,8 @@ namespace Game_Server
                 monster.maxHitPoints = 120;
                 monster.currentManaPoints = 0;
                 monster.maxManaPoints = 0;
-                monster.monsterPosition = new Vector2(posX, posY);
-                monster.spawnPosition = new Vector2(posX, posY);
+                monster.monsterPosition = pos;
+                monster.spawnPosition = pos;
                 monster.monsterExperienceGiven = 100;
                 return monster;
             };

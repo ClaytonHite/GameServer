@@ -38,11 +38,11 @@ namespace Game_Server.AIPathfinding
         }
         public void Update()
         {
-            if (!isActive || _target == null || _selectedUnit.isMoving == true) return;
-            if (_selectedUnit.currentTargetID < 1) return;
+            if(!isActive || _target == null || _selectedUnit.isMoving == true) return;
+            if(_selectedUnit.currentTargetID < 1) return;
             if(isNear() < 1.75) { return; }
             _selectedUnit.isMoving = true;
-            if (_targetOriginPos != _target.position)
+            if(movementList == null)
             {
                 _targetOriginPos = _target.position;
                 GenerateMapData();
@@ -236,9 +236,10 @@ namespace Game_Server.AIPathfinding
 
         public void MoveNextTile(List<Node> currentPath)
         {
-            if (currentPath.Count > 2)
+            if (currentPath.Count > 2 && Collider.CheckForCollider(new Vector2(currentPath[1].x, currentPath[1].y)))
             {
                 Vector2 movePosition = new Vector2(currentPath[1].x, currentPath[1].y);
+                _selectedUnit.collider.Position = movePosition;
                 _selectedUnit.monsterPosition = movePosition;
                 ServerSend.UpdateMonsterPosition(_selectedUnit.monsterID, _selectedUnit.monsterPosition);
                 currentPath.RemoveAt(0);

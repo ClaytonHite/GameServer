@@ -22,6 +22,7 @@ namespace Game_Server.AIPathfinding
             {
                 activeMonsterList.Add(monster);
             }
+            addToActiveMonsterList.Clear();
             foreach (Monster monster in activeMonsterList)
             {
                 if (Player.players.ContainsKey(monster.currentTargetID))
@@ -40,6 +41,7 @@ namespace Game_Server.AIPathfinding
                             removeFromActiveMonsterList.Add(monster);
                         }
                     }
+                    monster.pathfinding.Update();
                 }
                 else
                 {
@@ -47,13 +49,12 @@ namespace Game_Server.AIPathfinding
                     monster.currentTargetID = 0;
                     removeFromActiveMonsterList.Add(monster);
                 }
-                monster.pathfinding.Update();
             }
             foreach (Monster monster in removeFromActiveMonsterList)
             {
                 activeMonsterList.Remove(monster);
             }
-
+            removeFromActiveMonsterList.Clear();
         }
         public static void Update(Player _player)
         {
@@ -97,6 +98,11 @@ namespace Game_Server.AIPathfinding
                     }
                 }
             }
+        }
+        public static void RefreshAfterMonsterDeath(Monster monster)
+        {
+            monster.currentTarget = "";
+            monster.currentTargetID = 0;
         }
     }
 }
