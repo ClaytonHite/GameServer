@@ -66,7 +66,11 @@ namespace Game_Server.PlayerInteractions
             if (D20Die > 5 && D20Die <= 10)
             {
                 damage = (damage / 2) + 1;
-                damRange = RandomNumberGenerator.Between(-1 * (damage / 20) * D20Die, (damage / 20) * D20Die);
+                damRange = RandomNumberGenerator.Between(-1 * (damage * D20Die) / 20, (damage * D20Die) / 20);
+            }
+            else if (D20Die > 10 && D20Die <= 18)
+            {
+                damRange = RandomNumberGenerator.Between(-1 * (damage * D20Die) / 20, (damage * D20Die) / 20);
             }
             if (D20Die > 18)
             {
@@ -116,10 +120,15 @@ namespace Game_Server.PlayerInteractions
             if (D20Die > 5 && D20Die <= 10)
             {
                 damage = (damage / 2) + 1;
-                damRange = RandomNumberGenerator.Between(-1 * (damage / 20) * D20Die, (damage / 20) * D20Die);
+                damRange = RandomNumberGenerator.Between(-1 * (damage * D20Die) / 20, (damage * D20Die) / 20 );
                 monsterDamage = damage + damRange;
             }
-            if (D20Die > 19)
+            else if (D20Die > 10 && D20Die <= 18)
+            {
+                damRange = RandomNumberGenerator.Between(-1 * (damage * D20Die) / 20, (damage * D20Die) / 20);
+                monsterDamage = damage + damRange;
+            }
+            if (D20Die > 18)
             {
                 monsterDamage = damage * 2;
             }
