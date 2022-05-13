@@ -119,10 +119,9 @@ namespace Game_Server.PlayerInteractions
                 damRange = RandomNumberGenerator.Between(-1 * (damage / 20) * D20Die, (damage / 20) * D20Die);
                 monsterDamage = damage + damRange;
             }
-            if (D20Die > 18)
+            if (D20Die > 19)
             {
                 monsterDamage = damage * 2;
-                Console.WriteLine($"{_monster.monsterName} just did a critical hit on {_monster.currentTarget} for {damage} damage!");
             }
             return monsterDamage;
         }

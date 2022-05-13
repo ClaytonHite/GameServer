@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Numerics;
 using Game_Server;
+using AdventuresOnlineGameServer.Creatures.Players;
 
 namespace Game_Server
 {
@@ -200,7 +201,6 @@ namespace Game_Server
         public void SendIntoGame(string _playerName, List<int> _characterStats, List<string> _characterInfo)
         {
             player = new Player(id, _playerName, _characterStats, _characterInfo);
-
             foreach (Client _client in Server.clients.Values)
             {
                 if (_client.player != null)
@@ -225,14 +225,17 @@ namespace Game_Server
         {
             if (tcp.socket != null)
             {
-                Console.WriteLine(DateTime.Now + $" -- {tcp.socket.Client.RemoteEndPoint} has disconnected figure out how to clear player from monsters data.");
                 if (player != null)
                 {
+                    Console.WriteLine(DateTime.Now + $" -- {tcp.socket.Client.RemoteEndPoint} -- {player.username} has disconnected.");
                     DatabaseManager.SavePlayerStateDisconnect(player);
+                    PlayerManager.players.Remove(player.id);
                 }
-                Player.players[player.id] = null;
+                else
+                {
+                    Console.WriteLine(DateTime.Now + $" -- {tcp.socket.Client.RemoteEndPoint} -- has disconnected.");
+                }
                 player = null;
-
                 tcp.Disconnect();
                 udp.Disconnect();
             }

@@ -7,6 +7,7 @@ using System.Numerics;
 using System.Timers;
 using Game_Server.PlayerInteractions;
 using Game_Server.AIPathfinding;
+using AdventuresOnlineGameServer.Creatures.Players;
 
 namespace Game_Server
 {
@@ -32,7 +33,6 @@ namespace Game_Server
         public int playerWisdom;
         public int playerCharisma;
         public Vector2 spawnPosition;
-        //
         public int playerExperience;
         public int playerCarryingWeight;
         public int playerSkillPoints;
@@ -40,12 +40,10 @@ namespace Game_Server
         public bool isStealth;
         public bool playerAttacking;
         public bool playerMoving;
-        //
         public long ExperienceRequired;
         public long PreviousExperienceRequired;
-        public static Dictionary<int, Player> players = new Dictionary<int, Player>();
+        public static Dictionary<int, Player> players = PlayerManager.players;
 
-        //Player.players[ClientID].username gets the name of the player
         public Player(int _id, string _username, List<int> _characterStats, List<string> _characterInfo)
         {
             id = _id;

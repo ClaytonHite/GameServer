@@ -28,6 +28,7 @@ namespace Game_Server
             else
             {
                 Console.WriteLine(DateTime.Now + $" -- {Server.clients[_fromClient].tcp.socket.Client.RemoteEndPoint} -- {_username} connected with player name: {_character} and is now player {_fromClient}.");
+
                 Server.clients[_fromClient].SendIntoGame(_character, _characterStats, _characterInfo);
             }
         }
@@ -182,7 +183,7 @@ namespace Game_Server
             int _clientId = _packet.ReadInt();
             string _msg = _packet.ReadString();
             string _sendmsg = $"{DateTime.Now.ToShortTimeString()} -- {_msg}";
-            Console.WriteLine(_sendmsg);
+            Console.WriteLine(DateTime.Now + $" -- {_msg}");
             ServerSend.ChatBox(_clientId, _sendmsg);
         }
         public static void PlayerCombat(int _fromClient, Packet _packet)

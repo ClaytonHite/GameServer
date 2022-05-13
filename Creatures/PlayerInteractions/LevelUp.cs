@@ -25,7 +25,7 @@ namespace Game_Server.PlayerInteractions
             {
                 players[_fromClient].playerSkillPoints += 5;
                 players[_fromClient].playerLevel += 1;
-                Console.WriteLine($"{players[_fromClient].username} is now level {players[_fromClient].playerLevel}!");
+                Console.WriteLine(DateTime.Now + $" -- {players[_fromClient].username} is now level {players[_fromClient].playerLevel}!");
                 players[_fromClient].ExperienceRequired = (long)ExperienceTableForLevel(players[_fromClient].playerLevel);
                 players[_fromClient].PreviousExperienceRequired = (long)ExperienceTableForLevel((players[_fromClient].playerLevel - 1));
                 ServerSend.UpdatePlayer(_fromClient, players[_fromClient]);

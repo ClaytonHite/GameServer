@@ -34,15 +34,12 @@ namespace Game_Server.AIPathfinding
         }
         public float isNear()
         {
-            if(Player.players[_selectedUnit.currentTargetID] == null)
-            {
-                return 100;
-            }
             return Vector2.Distance(_selectedUnit.monsterPosition, Player.players[_selectedUnit.currentTargetID].position);
         }
         public void Update()
         {
             if (!isActive || _target == null || _selectedUnit.isMoving == true) return;
+            if (_selectedUnit.currentTargetID < 1) return;
             if(isNear() < 1.75) { return; }
             _selectedUnit.isMoving = true;
             if (_targetOriginPos != _target.position)

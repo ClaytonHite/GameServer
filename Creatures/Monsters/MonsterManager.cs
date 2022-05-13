@@ -13,7 +13,6 @@ namespace Game_Server
     class MonsterManager
     {
         public static Dictionary<int, Monster> monsters = new Dictionary<int, Monster>();
-        public static Dictionary<int, Player> players = Player.players;
         static int MapSize = TileMap.mapSize;
         public static string monsterMapFilePath = "C:/Users/Clayt/Desktop/MonsterMap.txt";
         public static int secondsBetweenSpawn = 1;
@@ -51,7 +50,7 @@ namespace Game_Server
         }
         public static void Death(int damage, int monsterID, int _fromClient)
         {
-            Console.WriteLine(DateTime.Now + $" -- {monsters[monsterID].monsterName} has been killed by {players[_fromClient].username}!");
+            Console.WriteLine(DateTime.Now + $" -- {monsters[monsterID].monsterName} has been killed by {Player.players[_fromClient].username}!");
             Reset(monsterID, monsters[monsterID].monsterAvatar, (int)monsters[monsterID].spawnPosition.X, (int)monsters[monsterID].spawnPosition.Y);
             int addExperienceToPlayer = monsters[monsterID].monsterExperienceGiven;
             monsters.Remove(monsterID);
