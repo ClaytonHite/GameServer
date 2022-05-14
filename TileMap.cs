@@ -46,7 +46,6 @@ namespace Game_Server
                                 new Collider(new Vector2(i, j), false);
                             }
                         }
-                        new GameObject(new Vector2(i, j), tileName);
                     }
                 }
             }
