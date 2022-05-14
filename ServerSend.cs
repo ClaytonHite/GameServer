@@ -123,7 +123,7 @@ namespace Game_Server
                 _packet.Write(damage);
                 _packet.Write(damageFrom);
 
-                SendTCPDataToAll(_packet);
+                SendUDPDataToAll(_packet);
             }
         }
         public static void UpdateMonsterPosition(int monsterID, Vector2 monsterPosition)
@@ -133,7 +133,7 @@ namespace Game_Server
                 _packet.Write(monsterID);
                 _packet.Write(monsterPosition);
 
-                SendTCPDataToAll(_packet);
+                SendUDPDataToAll(_packet);
             }
         }
         public static void PlayerDamageDone(int monsterID, int damage, Vector2 position, int damageFrom)
@@ -145,7 +145,7 @@ namespace Game_Server
                 _packet.Write(position);
                 _packet.Write(damageFrom);
 
-                SendTCPDataToAll(_packet);
+                SendUDPDataToAll(_packet);
             }
         }
         public static void MonsterDamageDone(int monsterID, int damage, Vector2 position, int _toClient)
@@ -158,7 +158,7 @@ namespace Game_Server
                 _packet.Write(_toClient);
                 _packet.Write(Player.players[_toClient].currentHitPoints);
 
-                SendTCPDataToAll(_packet);
+                SendUDPDataToAll(_packet);
             }
         }
         public static void CreateAccount(int _toClient, bool _create)
