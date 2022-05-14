@@ -209,8 +209,8 @@ namespace Game_Server
                 _packet.Write(_player.playerExperience);
                 _packet.Write(_player.playerSkillPoints);
                 _packet.Write(_player.isStealth);
-                _packet.Write(_player.ExperienceRequired);
-                _packet.Write(_player.PreviousExperienceRequired);
+                _packet.Write((int)_player.ExperienceRequired);
+                _packet.Write((int)_player.PreviousExperienceRequired);
 
                 SendTCPData(_toClient, _packet);
                 TargetFinder.Update(_player);
