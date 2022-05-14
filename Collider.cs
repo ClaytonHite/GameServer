@@ -38,6 +38,7 @@ namespace Game_Server
             }
             catch
             {
+                return false;
                 Console.WriteLine("COLLIDERS WERE ACESSED DURING FOREACH LOOP");
             }
         }
