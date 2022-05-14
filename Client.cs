@@ -244,6 +244,7 @@ namespace Game_Server
                     Console.WriteLine(DateTime.Now + $" -- {tcp.socket.Client.RemoteEndPoint} -- has disconnected.");
                 }
                 player = null;
+                //TODO ServerSend disconnection to remaining clients.
                 tcp.Disconnect();
                 udp.Disconnect();
             }

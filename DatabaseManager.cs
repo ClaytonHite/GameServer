@@ -119,7 +119,7 @@ namespace Game_Server
 			string maxHitPoints = "50";
 			string currentManaPoints = "30";
 			string maxManaPoints = "30";
-			string currentLocation = "11:10";
+			string currentLocation = "12:11";
 			string playerRace = _characterInfo[0];
 			string playerClass = _characterInfo[1];
 			int[] playerStatMod = PlayerStatModifiers.RaceStatMod[_characterInfo[0]];
