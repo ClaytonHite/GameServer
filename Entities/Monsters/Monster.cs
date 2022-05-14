@@ -1,4 +1,5 @@
-﻿using Game_Server.AIPathfinding;
+﻿using AdventuresOnlineGameServer.Entities.Items;
+using Game_Server.AIPathfinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,7 @@ namespace Game_Server
         public bool isMoving;
         public bool isAttacking;
         public Collider collider = new Collider(new Vector2(0,0), false);
+        public List<Item> LootTable = new List<Item>();
         public static void AddMonster(Monster monster)
         {
             monsterCount++;
