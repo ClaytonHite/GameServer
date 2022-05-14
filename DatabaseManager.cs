@@ -15,8 +15,7 @@ namespace Game_Server
 			XDocument doc = XDocument.Load("D:\\GameServer\\Database\\Accounts.xml");
 			IEnumerable<XElement> elements = doc.Descendants();
 
-			List<string> accounts = new List<string>();
-
+			List<XElement> accounts = new List<XElement>();
 			foreach (XElement element in elements)
 			{
 				//reads through xml document and finds elements with the name Account.
@@ -24,19 +23,13 @@ namespace Game_Server
 				{
 					//adds the values of the accounts ID // PASSWORD // DateCreated
 					XAttribute attributes = element.FirstAttribute;
-					accounts.Add(Convert.ToString(attributes.Value));
-					while ((attributes = attributes.NextAttribute) != null)
-					{
-						accounts.Add(Convert.ToString(attributes.Value));
-					}
-				}
-			}
-			//LIST FOR STORED ACCOUNTS IN INCREMENTS OF 3. EX 0, 1 , 2 or 6, 7, 8.
-			for (int i = 0; i < accounts.Count; i++)
-			{
-				if (accounts[i] == _username && accounts[i + 1] == _password)
-				{
-					return true;
+					if (attributes.Value == _username)
+                    {
+						if(attributes.NextAttribute.Value == _password)
+                        {
+							return true;
+                        }
+                    }
 				}
 			}
 			return false;
@@ -183,9 +176,7 @@ namespace Game_Server
 								new XElement("Quests",
 								new XElement("Quest",
 								new XAttribute("FirstQuest", "false")))));
-
 							WritePlayer.Save("D:\\GameServer\\Database\\Players.xml");
-							return;
 						}
 					}
 				}
@@ -246,6 +237,36 @@ namespace Game_Server
 				}
 			}
 			return _characterInfo;
+		}
+		public static List<string> ReadPlayersXML(string _username, string _password)
+		{
+			XDocument doc = XDocument.Load("D:\\GameServer\\Database\\Players.xml");
+			IEnumerable<XElement> elements = doc.Descendants();
+			List<string> Players = new List<string>();
+			foreach (XElement element in elements)
+			{
+				if (element.Name == "Account")
+				{
+					IEnumerable<XAttribute> attribute = element.Attributes();
+					foreach (XAttribute eleAttri in attribute)
+					{
+						if (eleAttri.Value == _username)
+						{
+							XElement root = element;
+							foreach (XElement ele in root.Elements())
+							{
+								XAttribute attributes = ele.FirstAttribute;
+								Players.Add(Convert.ToString(attributes.Value));
+								while ((attributes = attributes.NextAttribute) != null)
+								{
+									Players.Add(Convert.ToString(attributes.Value));
+								}
+							}
+						}
+					}
+				}
+			}
+			return Players;
 		}
 		public static void SavePlayerStateDisconnect(Player player)
 		{
@@ -344,6 +365,82 @@ namespace Game_Server
 						}
 					}
 				}
+			}
+			doc.Save("D:\\GameServer\\Database\\Players.xml");
+		}
+		public static void DeleteAccountXML(string _username, string _password)
+		{
+			bool correctAccountAndPassword = false;
+			XDocument doc = XDocument.Load("D:\\GameServer\\Database\\Accounts.xml");
+			IEnumerable<XElement> Accountelements = doc.Descendants();
+			List<XElement> AccountToDelete = new List<XElement>();
+			foreach (XElement element in Accountelements)
+			{
+				//reads through xml document and finds elements with the name Account.
+				if (element.Name == "Account")
+				{
+					//adds the values of the accounts ID // PASSWORD // DateCreated
+					XAttribute attributes = element.FirstAttribute;
+					Console.WriteLine(attributes.Value);
+					if(attributes.Value == _username)
+                    {
+						if(attributes.NextAttribute.Value == _password)
+                        {
+							AccountToDelete.Add(element);
+							correctAccountAndPassword = true;
+
+						}
+                    }
+				}
+			}
+			if (correctAccountAndPassword)
+			{
+				foreach (XElement element in AccountToDelete)
+				{
+					element.Remove();
+				}
+				doc.Save("D:\\GameServer\\Database\\Accounts.xml");
+
+				List<XElement> CharacterToDelete = new List<XElement>();
+				XDocument doc2 = XDocument.Load("D:\\GameServer\\Database\\Players.xml");
+				IEnumerable<XElement> root2 = doc2.Descendants();
+				foreach (XElement ele in root2.Elements())
+				{
+					if (ele.Name == "Account")
+					{
+						XAttribute attributes = ele.FirstAttribute;
+						if (attributes.Value == _username)
+						{
+							CharacterToDelete.Add(ele);
+						}
+					}
+				}
+				foreach (XElement element in CharacterToDelete)
+				{
+					element.Remove();
+				}
+				doc2.Save("D:\\GameServer\\Database\\Players.xml");
+			}
+		}
+		public static void DeleteCharacterXML(string _username, string _password, string _characterName)
+        {
+			List<XElement> CharacterToDelete = new List<XElement>();
+			XDocument doc = XDocument.Load("D:\\GameServer\\Database\\Players.xml");
+			IEnumerable<XElement> root = doc.Descendants();
+			foreach (XElement ele in root.Elements())
+			{
+				if (ele.Name == "PlayerName")
+				{
+					XAttribute attributes = ele.FirstAttribute;
+					if (attributes.Value == _characterName)
+					{
+						CharacterToDelete.Add(ele);
+					}
+				}
+			}
+			foreach (XElement element in CharacterToDelete)
+			{
+				element.Remove();
 			}
 			doc.Save("D:\\GameServer\\Database\\Players.xml");
 		}

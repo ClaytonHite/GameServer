@@ -36,6 +36,8 @@ namespace Game_Server
         CreateCharacter,
         playerCombat,
         addSkill,
+        CharacterToDelete,
+        AccountToDelete,
         ChatBox
     }
 

@@ -36,7 +36,7 @@ namespace Game_Server
         public static void CharacterSelection(int _fromClient, string _username, string _password, bool _bool)
         {
 
-            List<String> PlayersOnAccount = ReadPlayersXML(_username, _password);
+            List<String> PlayersOnAccount = DatabaseManager.ReadPlayersXML(_username, _password);
             if (PlayersOnAccount.Count >= 1)
             {
                 //converts the list we got to a string to send back to client
@@ -72,10 +72,9 @@ namespace Game_Server
             if (!_bool)
             {
                 Console.WriteLine(DateTime.Now + $" -- {Server.clients[_fromClient].tcp.socket.Client.RemoteEndPoint} -- Entered the wrong information.");
-                CharacterSelection(_fromClient, _username, _password, _bool);
                 Server.clients[_fromClient].Disconnect();
+                //TODO write serversend script for wrong account info
             }
-
         }
         public static void CreateAccount(int _fromClient, Packet _packet)
         {
@@ -141,36 +140,6 @@ namespace Game_Server
             float _clientVersion = _packet.ReadFloat();
             Console.WriteLine(DateTime.Now + $" -- {Server.clients[_fromClient].tcp.socket.Client.RemoteEndPoint} has connected with ID : {_clientIdCheck} and client version {_clientVersion}.");
         }
-        public static List<string> ReadPlayersXML(string _username, string _password)
-        {
-            XDocument doc = XDocument.Load("D:\\GameServer\\Database\\Players.xml");
-            IEnumerable<XElement> elements = doc.Descendants();
-            List<string> Players = new List<string>();
-            foreach (XElement element in elements)
-            {
-                if (element.Name == "Account")
-                {
-                    IEnumerable<XAttribute> attribute = element.Attributes();
-                    foreach (XAttribute eleAttri in attribute)
-                    {
-                        if (eleAttri.Value == _username)
-                        {
-                            XElement root = element;
-                            foreach (XElement ele in root.Elements())
-                            {
-                                XAttribute attributes = ele.FirstAttribute;
-                                Players.Add(Convert.ToString(attributes.Value));
-                                while ((attributes = attributes.NextAttribute) != null)
-                                {
-                                    Players.Add(Convert.ToString(attributes.Value));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return Players;
-        }
         #endregion
         #region PlayerInput
         public static void PlayerMovement(int _fromClient, Packet _packet)
@@ -196,6 +165,21 @@ namespace Game_Server
         {
             int skill = _packet.ReadInt();
             AddSkills.StatRoll(_fromClient, skill);
+        }
+        public static void CharacterToDelete(int _fromClient, Packet _packet)
+        {
+            string _username = _packet.ReadString();
+            string _password = _packet.ReadString();
+            string _characterToDelete = _packet.ReadString();
+            Console.WriteLine($"Character to delete = {_username}, {_password}, {_characterToDelete}");
+            DatabaseManager.DeleteCharacterXML(_username, _password, _characterToDelete);
+        }
+        public static void AccountToDelete(int _fromClient, Packet _packet)
+        {
+            string _username = _packet.ReadString();
+            string _password = _packet.ReadString();
+            Console.WriteLine($"Account to delete = {_username}, {_password}");
+            DatabaseManager.DeleteAccountXML(_username, _password);
         }
         #endregion
     }

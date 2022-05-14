@@ -75,18 +75,25 @@ namespace Game_Server
             {
                 try
                 {
-                    int _byteLength = stream.EndRead(_result);
-                    if (_byteLength <= 0)
+                    if (stream != null)
                     {
-                        //Disconnect
-                        Server.clients[id].Disconnect();
-                        return;
-                    }
-                    byte[] _data = new byte[_byteLength];
-                    Array.Copy(receiveBuffer, _data, _byteLength);
+                        int _byteLength = stream.EndRead(_result);
+                        if (_byteLength <= 0)
+                        {
+                            //Disconnect
+                            Server.clients[id].Disconnect();
+                            return;
+                        }
+                        byte[] _data = new byte[_byteLength];
+                        Array.Copy(receiveBuffer, _data, _byteLength);
 
-                    receivedData.Reset(HandleData(_data));
-                    stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
+                        receivedData.Reset(HandleData(_data));
+                        stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
+                    }
+                    else
+                    {
+                        Server.clients[id].Disconnect();
+                    }
                 }
                 catch (Exception _ex)
                 {

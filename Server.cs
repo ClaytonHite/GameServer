@@ -137,6 +137,8 @@ namespace Game_Server
                 { (int)ClientPackets.CreateCharacter, ServerHandle.CreateCharacter },
                 { (int)ClientPackets.playerCombat, ServerHandle.PlayerCombat },
                 { (int)ClientPackets.addSkill, ServerHandle.AddSkill },
+                { (int)ClientPackets.CharacterToDelete, ServerHandle.CharacterToDelete },
+                { (int)ClientPackets.AccountToDelete, ServerHandle.AccountToDelete },
                 { (int)ClientPackets.ChatBox, ServerHandle.ChatBox }
             };
             Console.WriteLine(DateTime.Now + $" -- Initialized packets.");
