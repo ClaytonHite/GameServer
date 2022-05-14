@@ -90,6 +90,18 @@ namespace Game_Server
 
             }
         }
+        public static void WrongAccountorPassword(int _toClient, int _connectionAttempts)
+        {
+            using (Packet _packet = new Packet((int)ServerPackets.wrongAccountorPassword))
+            {
+                _packet.Write(_toClient);
+                _packet.Write(false);
+                _packet.Write((int)_connectionAttempts);
+
+                SendTCPData(_toClient, _packet);
+
+            }
+        }
         public static void PopulateMonsters(int _toClient)
         {
             string monsters = Monster.MonsterDataString();

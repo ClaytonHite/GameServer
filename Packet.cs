@@ -22,6 +22,7 @@ namespace Game_Server
         PlayerDamageDone,
         MonsterDamageDone,
         updatePlayer,
+        wrongAccountorPassword,
         ChatBox
     }
 

@@ -72,8 +72,15 @@ namespace Game_Server
             if (!_bool)
             {
                 Console.WriteLine(DateTime.Now + $" -- {Server.clients[_fromClient].tcp.socket.Client.RemoteEndPoint} -- Entered the wrong information.");
-                Server.clients[_fromClient].Disconnect();
-                //TODO write serversend script for wrong account info
+                if (Server.clients[_fromClient].ConnectionAttempts < 4)
+                {
+                    Server.clients[_fromClient].ConnectionAttempts++;
+                    ServerSend.WrongAccountorPassword(_fromClient, Server.clients[_fromClient].ConnectionAttempts);
+                }
+                else
+                {
+                    Server.clients[_fromClient].Disconnect();
+                }
             }
         }
         public static void CreateAccount(int _fromClient, Packet _packet)
