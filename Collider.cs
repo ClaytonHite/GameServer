@@ -22,17 +22,25 @@ namespace Game_Server
         }
         public static bool CheckForCollider(Vector2 position)
         {
-            foreach (Collider collider in Colliders.Values)
+            try
             {
-                if (collider.Position.X == position.X && collider.Position.Y == position.Y)
+                foreach (Collider collider in Colliders.Values)
                 {
-                    if (!collider.Walkable)
+                    if (collider.Position.X == position.X && collider.Position.Y == position.Y)
                     {
-                        return false;
+                        if (!collider.Walkable)
+                        {
+                            return false;
+                        }
                     }
                 }
+                return true;
             }
-            return true;
+            catch
+            {
+                return false;
+                Console.WriteLine("COLLIDERS WERE ACESSED DURING FOREACH LOOP");
+            }
         }
         public static void DestorySelf(Vector2 position)
         {
