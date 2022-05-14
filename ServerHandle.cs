@@ -80,6 +80,7 @@ namespace Game_Server
                 else
                 {
                     Server.clients[_fromClient].Disconnect();
+                    Server.clients[_fromClient].ConnectionAttempts = 0;
                 }
             }
         }
