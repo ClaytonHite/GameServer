@@ -28,7 +28,7 @@ namespace Game_Server
             else
             {
                 Console.WriteLine(DateTime.Now + $" -- {Server.clients[_fromClient].tcp.socket.Client.RemoteEndPoint} -- {_username} connected with player name: {_character} and is now player {_fromClient}.");
-                Server.clients[_fromClient].SendIntoGame(_character, _characterStats, _characterInfo);
+                Server.clients[_fromClient].SendIntoGame(_fromClient, _character, _characterStats, _characterInfo);
             }
         }
 

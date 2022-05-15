@@ -155,6 +155,7 @@ namespace Game_Server
         /// <summary>Adds an int to the packet.</summary>
         /// <param name="_value">The int to add.</param>
         public void Write(int _value)
+        
         {
             buffer.AddRange(BitConverter.GetBytes(_value));
         }

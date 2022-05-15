@@ -206,14 +206,14 @@ namespace Game_Server
             }
         }
 
-        public void SendIntoGame(string _playerName, List<int> _characterStats, List<string> _characterInfo)
+        public void SendIntoGame(int _fromClient, string _playerName, List<int> _characterStats, List<string> _characterInfo)
         {
-            player = new Player(id, _playerName, _characterStats, _characterInfo);
+            player = new Player(_fromClient, _playerName, _characterStats, _characterInfo);
             foreach (Client _client in Server.clients.Values)
             {
                 if (_client.player != null)
                 {
-                    if (_client.id != id)
+                    if (_client.id != _fromClient)
                     {
                         ServerSend.SpawnPlayer(id, _client.player);
                     }

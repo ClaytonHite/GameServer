@@ -104,8 +104,8 @@ namespace Game_Server
                     players[_fromClient].playerMoving = false;
                 });
                 TargetFinder.Update(players[_fromClient]);
-                currentLocation = location;
-                position = location;
+                players[_fromClient].currentLocation = location;
+                players[_fromClient].position = location;
             }
             ServerSend.PlayerPosition(this);
         }
