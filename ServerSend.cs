@@ -166,7 +166,6 @@ namespace Game_Server
             // packet class inherits from Idisposable so needs to be dispose of when done
             using (Packet _packet = new Packet((int)ServerPackets.CreateAccount))
             {
-                _packet.Write(_toClient);
                 _packet.Write(_create);
 
                 SendTCPData(_toClient, _packet);
@@ -241,7 +240,7 @@ namespace Game_Server
                 _packet.Write(_player.ExperienceRequired);
                 _packet.Write(_player.PreviousExperienceRequired);
 
-                SendTCPData(_toClient, _packet);
+                SendTCPDataToAll(_packet);
                 TargetFinder.Update(_player);
             }
         }

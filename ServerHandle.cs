@@ -152,7 +152,11 @@ namespace Game_Server
         public static void PlayerMovement(int _fromClient, Packet _packet)
         {
             Vector2 location = _packet.ReadVector2();
-            Server.clients[_fromClient].player.MovePlayerLocation(location, _fromClient);
+
+            if (!Player.players[_fromClient].playerMoving)
+            {
+                Server.clients[_fromClient].player.MovePlayerLocation(location, _fromClient);
+            }
         }
         public static void ChatBox(int _fromClient, Packet _packet)
         {

@@ -95,7 +95,7 @@ namespace Game_Server
         }
         public void MovePlayerLocation(Vector2 location, int _fromClient)
         {
-            if (players[_fromClient].playerMoving == false)
+            if (!players[_fromClient].playerMoving)
             {
                 players[_fromClient].playerMoving = true;
                 Task.Run(async delegate
