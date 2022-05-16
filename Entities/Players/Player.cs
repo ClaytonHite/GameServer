@@ -11,7 +11,7 @@ using AdventuresOnlineGameServer.Creatures.Players;
 
 namespace Game_Server
 {
-    public class Player
+    class Player
     {
         public bool isMoving = false;
         public int id;
@@ -42,7 +42,7 @@ namespace Game_Server
         public bool playerMoving;
         public long ExperienceRequired;
         public long PreviousExperienceRequired;
-        public static Dictionary<int, Player> players = PlayerManager.players;
+        public static Dictionary<int, Client> clients = Server.clients;
 
         public Player(int _id, string _username, List<int> _characterStats, List<string> _characterInfo)
         {
@@ -82,11 +82,7 @@ namespace Game_Server
                 isStealth = true;
             }
             playerAttacking = false;
-            if (players.ContainsKey(_id))
-            {
-                players.Remove(_id);
-            }
-            players.Add(_id, this);
+            Server.clients[_id].player = this;
         }
 
         public void Update()
@@ -95,17 +91,17 @@ namespace Game_Server
         }
         public void MovePlayerLocation(Vector2 location, int _fromClient)
         {
-            if (!players[_fromClient].playerMoving)
+            if (!Server.clients[_fromClient].player.playerMoving)
             {
-                players[_fromClient].playerMoving = true;
+                Server.clients[_fromClient].player.playerMoving = true;
                 Task.Run(async delegate
                 {
-                    await Task.Delay((1000 / (1 + (players[_fromClient].playerDexterity / 50))));
-                    players[_fromClient].playerMoving = false;
+                    await Task.Delay((1000 / (1 + (Server.clients[_fromClient].player.playerDexterity / 50))));
+                    Server.clients[_fromClient].player.playerMoving = false;
                 });
-                TargetFinder.Update(players[_fromClient]);
-                players[_fromClient].currentLocation = location;
-                players[_fromClient].position = location;
+                TargetFinder.Update(Server.clients[_fromClient].player);
+                Server.clients[_fromClient].player.currentLocation = location;
+                Server.clients[_fromClient].player.position = location;
             }
             ServerSend.PlayerPosition(this);
         }

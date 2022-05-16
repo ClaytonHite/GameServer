@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Game_Server
 {
-    public class Monster
+    class Monster
     {
         public static int monsterCount;
         public static Dictionary<int, Monster> monsters = MonsterManager.monsters;

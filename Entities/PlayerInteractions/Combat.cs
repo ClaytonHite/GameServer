@@ -9,20 +9,19 @@ using System.Threading.Tasks;
 
 namespace Game_Server.PlayerInteractions
 {
-    public class Combat
+    class Combat
     {
         public static Dictionary<int, Monster> monsters = MonsterManager.monsters;
-        public static Dictionary<int, Player> players = Player.players;
         public static int D20Die = 0;
         public static void PlayerAttack(int _fromClient, int monsterID, Vector2 monsterLocation)
         {
-            if (!players[_fromClient].playerAttacking)
+            if (!Server.clients[_fromClient].player.playerAttacking)
             {
-                players[_fromClient].playerAttacking = true;
+                Server.clients[_fromClient].player.playerAttacking = true;
                 Task.Run(async delegate
                 {
-                    await Task.Delay((10000 / players[_fromClient].playerDexterity) * 3);
-                    players[_fromClient].playerAttacking = false;
+                    await Task.Delay((10000 / Server.clients[_fromClient].player.playerDexterity) * 3);
+                    Server.clients[_fromClient].player.playerAttacking = false;
                 });
                 int damage = GetPlayerAttackDamage(_fromClient);
                 if (monsters.ContainsKey(monsterID))
@@ -46,16 +45,16 @@ namespace Game_Server.PlayerInteractions
             //add skill for weapons on players
             //add current weapon on player
             int damRange = 0;
-            int playerLevel = players[_fromClient].playerLevel;
+            int playerLevel = Server.clients[_fromClient].player.playerLevel;
             int playerWeapon = 1;
             int playerSkillDamage = 10;
-            if (players[_fromClient].playerClass == "Barbarian" || players[_fromClient].playerClass == "Cleric" || players[_fromClient].playerClass == "Druid" || players[_fromClient].playerClass == "Fighter" || players[_fromClient].playerClass == "Paladin")
+            if (Server.clients[_fromClient].player.playerClass == "Barbarian" || Server.clients[_fromClient].player.playerClass == "Cleric" || Server.clients[_fromClient].player.playerClass == "Druid" || Server.clients[_fromClient].player.playerClass == "Fighter" || Server.clients[_fromClient].player.playerClass == "Paladin")
             {
-                playerSkillDamage = players[_fromClient].playerStrength;
+                playerSkillDamage = Server.clients[_fromClient].player.playerStrength;
             }//"Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"
-            if (players[_fromClient].playerClass == "Monk" || players[_fromClient].playerClass == "Ranger" || players[_fromClient].playerClass == "Rogue")
+            if (Server.clients[_fromClient].player.playerClass == "Monk" || Server.clients[_fromClient].player.playerClass == "Ranger" || Server.clients[_fromClient].player.playerClass == "Rogue")
             {
-                playerSkillDamage = players[_fromClient].playerDexterity + (players[_fromClient].playerStrength / 2);
+                playerSkillDamage = Server.clients[_fromClient].player.playerDexterity + (Server.clients[_fromClient].player.playerStrength / 2);
             }
             D20Die = Dice.D20Die();
             int damage = (playerLevel / 5) + (((int)((3.25f * playerWeapon)) * (playerSkillDamage)) / 28);
@@ -75,7 +74,7 @@ namespace Game_Server.PlayerInteractions
             if (D20Die > 18)
             {
                 damage = damage * 2;
-                Console.WriteLine($"{players[_fromClient].username} just did a critical hit for {damage}!");
+                Console.WriteLine($"{Server.clients[_fromClient].player.username} just did a critical hit for {damage}!");
             }
             int finalDamage = damage + damRange;
             return finalDamage;
@@ -91,14 +90,14 @@ namespace Game_Server.PlayerInteractions
                     _monster.isAttacking = false;
                 });
                 int damage = GetMonsterAttackDamage(_monster);
-                if (players.ContainsKey(_monster.currentTargetID))
+                if (Server.clients.ContainsKey(_monster.currentTargetID))
                 {
-                    players[_monster.currentTargetID].currentHitPoints = players[_monster.currentTargetID].currentHitPoints - damage;
-                    if (players[_monster.currentTargetID].currentHitPoints > 0)
+                    Server.clients[_monster.currentTargetID].player.currentHitPoints = Server.clients[_monster.currentTargetID].player.currentHitPoints - damage;
+                    if (Server.clients[_monster.currentTargetID].player.currentHitPoints > 0)
                     {
-                        ServerSend.MonsterDamageDone(_monster.monsterID, damage, players[_monster.currentTargetID].position, _monster.currentTargetID);
+                        ServerSend.MonsterDamageDone(_monster.monsterID, damage, Server.clients[_monster.currentTargetID].player.position, _monster.currentTargetID);
                     }
-                    if (players[_monster.currentTargetID].currentHitPoints <= 0)
+                    if (Server.clients[_monster.currentTargetID].player.currentHitPoints <= 0)
                     {
                         PlayerManager.Death(damage, _monster.monsterID, _monster.currentTargetID);
                     }

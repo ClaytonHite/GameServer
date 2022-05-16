@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Game_Server.AIPathfinding
 {
-    public class Pathfinding
+    class Pathfinding
     {
         public Player _target;
         public Monster _selectedUnit;
@@ -34,7 +34,7 @@ namespace Game_Server.AIPathfinding
         }
         public float isNear()
         {
-            return Vector2.Distance(_selectedUnit.monsterPosition, Player.players[_selectedUnit.currentTargetID].position);
+            return Vector2.Distance(_selectedUnit.monsterPosition, Server.clients[_selectedUnit.currentTargetID].player.position);
         }
         public void Update()
         {

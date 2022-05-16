@@ -18,19 +18,19 @@ namespace Game_Server.PlayerInteractions
         }
         public static void AddExperienceToPlayer(int _fromClient, int Experience)
         {
-            Dictionary<int, Player> players = Player.players;
-            players[_fromClient].playerExperience += Experience;
-            players[_fromClient].ExperienceRequired = (long)ExperienceTableForLevel(players[_fromClient].playerLevel);
-            while (players[_fromClient].playerExperience > players[_fromClient].ExperienceRequired)
+            Dictionary<int, Client> clients = Server.clients;
+            clients[_fromClient].player.playerExperience += Experience;
+            clients[_fromClient].player.ExperienceRequired = (long)ExperienceTableForLevel(clients[_fromClient].player.playerLevel);
+            while (clients[_fromClient].player.playerExperience > clients[_fromClient].player.ExperienceRequired)
             {
-                players[_fromClient].playerSkillPoints += 5;
-                players[_fromClient].playerLevel += 1;
-                Console.WriteLine(DateTime.Now + $" -- {players[_fromClient].username} is now level {players[_fromClient].playerLevel}!");
-                players[_fromClient].ExperienceRequired = (long)ExperienceTableForLevel(players[_fromClient].playerLevel);
-                players[_fromClient].PreviousExperienceRequired = (long)ExperienceTableForLevel((players[_fromClient].playerLevel - 1));
-                ServerSend.UpdatePlayer(_fromClient, players[_fromClient]);
+                clients[_fromClient].player.playerSkillPoints += 5;
+                clients[_fromClient].player.playerLevel += 1;
+                Console.WriteLine(DateTime.Now + $" -- {clients[_fromClient].player.username} is now level {clients[_fromClient].player.playerLevel}!");
+                clients[_fromClient].player.ExperienceRequired = (long)ExperienceTableForLevel(clients[_fromClient].player.playerLevel);
+                clients[_fromClient].player.PreviousExperienceRequired = (long)ExperienceTableForLevel((clients[_fromClient].player.playerLevel - 1));
+                ServerSend.UpdatePlayer(_fromClient, clients[_fromClient].player);
             }
-            ServerSend.UpdatePlayer(_fromClient, players[_fromClient]);
+            ServerSend.UpdatePlayer(_fromClient, clients[_fromClient].player);
         }
         public static double ExperienceTableForLevel(int playerLevel)
         {

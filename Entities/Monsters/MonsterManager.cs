@@ -48,14 +48,14 @@ namespace Game_Server
                         Convert.ToString(monsters[monsterID].monsterPosition.Y)
                         );
             ServerSend.MonsterUpdate(true, respawnMonster, -1, -1);
-            foreach (Player player in Player.players.Values)
+            foreach (Client client in Server.clients.Values)
             {
-                TargetFinder.Update(player);
+                TargetFinder.Update(client.player);
             }
         }
         public static void Death(int damage, int monsterID, int _fromClient)
         {
-            Console.WriteLine(DateTime.Now + $" -- {monsters[monsterID].monsterName} has been killed by {Player.players[_fromClient].username}!");
+            Console.WriteLine(DateTime.Now + $" -- {monsters[monsterID].monsterName} has been killed by {Server.clients[_fromClient].player.username}!");
             Reset(monsterID, monsters[monsterID].monsterAvatar, (int)monsters[monsterID].spawnPosition.X, (int)monsters[monsterID].spawnPosition.Y);
             int addExperienceToPlayer = monsters[monsterID].monsterExperienceGiven;
             TargetFinder.RefreshAfterMonsterDeath(monsters[monsterID]);

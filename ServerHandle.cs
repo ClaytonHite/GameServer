@@ -153,7 +153,7 @@ namespace Game_Server
         {
             Vector2 location = _packet.ReadVector2();
 
-            if (!Player.players[_fromClient].playerMoving)
+            if (!Server.clients[_fromClient].player.playerMoving)
             {
                 Server.clients[_fromClient].player.MovePlayerLocation(location, _fromClient);
             }

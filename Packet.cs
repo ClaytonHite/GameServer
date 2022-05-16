@@ -23,7 +23,8 @@ namespace Game_Server
         MonsterDamageDone,
         updatePlayer,
         wrongAccountorPassword,
-        ChatBox
+        ChatBox,
+        DisconnectPlayer
     }
 
     /// <summary>Sent from client to server.</summary>

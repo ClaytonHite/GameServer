@@ -237,14 +237,14 @@ namespace Game_Server
                 {
                     Console.WriteLine(DateTime.Now + $" -- {tcp.socket.Client.RemoteEndPoint} -- {player.username} has disconnected.");
                     DatabaseManager.SavePlayerStateDisconnect(player);
-                    PlayerManager.players.Remove(player.id);
                 }
                 else
                 {
                     Console.WriteLine(DateTime.Now + $" -- {tcp.socket.Client.RemoteEndPoint} -- has disconnected.");
                 }
-                player = null;
+                ServerSend.DisconnectPlayer(player);
                 //TODO ServerSend disconnection to remaining clients.
+                player = null;
                 tcp.Disconnect();
                 udp.Disconnect();
             }

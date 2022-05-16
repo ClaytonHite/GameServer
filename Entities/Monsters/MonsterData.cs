@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Game_Server
 {
-    public class MonsterData
+    class MonsterData
     {
         public static int MonsterStatCount = 16;
         public static Monster GetMonster(int image, int posX, int posY)

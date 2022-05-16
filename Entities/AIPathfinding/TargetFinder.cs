@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Game_Server.AIPathfinding
 {
-    public class TargetFinder
+    class TargetFinder
     {
         static int playerRange = 6;
         public Player _target;
@@ -25,12 +25,12 @@ namespace Game_Server.AIPathfinding
             addToActiveMonsterList.Clear();
             foreach (Monster monster in activeMonsterList)
             {
-                if (Player.players.ContainsKey(monster.currentTargetID))
+                if (Server.clients.ContainsKey(monster.currentTargetID))
                 {
                     float distanceCheck = monster.pathfinding.isNear();
                     if (distanceCheck < 1.75)
                     {
-                        if (Player.players[monster.currentTargetID] != null)
+                        if (Server.clients[monster.currentTargetID] != null)
                         {
                             Combat.MonsterAttack(monster);
                         }
@@ -76,9 +76,9 @@ namespace Game_Server.AIPathfinding
                 }
                 else
                 {
-                    if (Player.players.ContainsKey(monster.currentTargetID))
+                    if (Server.clients.ContainsKey(monster.currentTargetID))
                     {
-                        if (monster.currentTarget == Player.players[monster.currentTargetID].username)
+                        if (monster.currentTarget == Server.clients[monster.currentTargetID].player.username)
                         {
                             monster.currentTarget = "";
                             monster.currentTargetID = 0;

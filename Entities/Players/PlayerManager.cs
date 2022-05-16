@@ -9,12 +9,12 @@ namespace AdventuresOnlineGameServer.Creatures.Players
 {
     class PlayerManager
     {
-        public static Dictionary<int, Player> players = new Dictionary<int, Player>();
+        public static Dictionary<int, Client> clients = Server.clients;
         public static Dictionary<int, Monster> monsters = MonsterManager.monsters;
         public static void Death(int damage, int monsterID, int _toClient)
         {
-            Console.WriteLine(DateTime.Now + $" -- {players[_toClient].username} has been killed by {monsters[monsterID].monsterName} with a hit of {damage}!");
-            players[_toClient].currentHitPoints = players[_toClient].maxHitPoints;
+            Console.WriteLine(DateTime.Now + $" -- {clients[_toClient].player.username} has been killed by {monsters[monsterID].monsterName} with a hit of {damage}!");
+            clients[_toClient].player.currentHitPoints = clients[_toClient].player.maxHitPoints;
         }
     }
 }

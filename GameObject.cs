@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Game_Server
 {
-    public class GameObject
+   class GameObject
     {
         public Vector2 Position = new Vector2(0, 0);
         public string Tag = "";

@@ -29,7 +29,10 @@ namespace Game_Server
             _packet.WriteLength();
             for (int i = 1; i <= Server.MaxPlayers; i++)
             {
-                Server.clients[i].tcp.SendData(_packet);
+                if (Server.clients[i].tcp.socket != null)
+                {
+                    Server.clients[i].tcp.SendData(_packet);
+                }
             }
 
         }
@@ -40,7 +43,10 @@ namespace Game_Server
             {
                 if (i != _exceptClient)
                 {
-                    Server.clients[i].tcp.SendData(_packet);
+                    if (Server.clients[i].tcp.socket != null)
+                    {
+                        Server.clients[i].tcp.SendData(_packet);
+                    }
                 }
             }
         }
@@ -50,7 +56,10 @@ namespace Game_Server
             _packet.WriteLength();
             for (int i = 1; i <= Server.MaxPlayers; i++)
             {
-                Server.clients[i].udp.SendData(_packet);
+                if (Server.clients[i].udp.endPoint != null)
+                {
+                    Server.clients[i].udp.SendData(_packet);
+                }
             }
         }
         private static void SendUDPDataToAll(int _exceptClient, Packet _packet)
@@ -60,7 +69,10 @@ namespace Game_Server
             {
                 if (i != _exceptClient)
                 {
-                    Server.clients[i].udp.SendData(_packet);
+                    if (Server.clients[i].udp.endPoint != null)
+                    {
+                        Server.clients[i].udp.SendData(_packet);
+                    }
                 }
             }
         }
@@ -156,7 +168,7 @@ namespace Game_Server
                 _packet.Write(damage);
                 _packet.Write(position);
                 _packet.Write(_toClient);
-                _packet.Write(Player.players[_toClient].currentHitPoints);
+                _packet.Write(Server.clients[_toClient].player.currentHitPoints);
 
                 SendUDPDataToAll(_packet);
             }
@@ -273,6 +285,15 @@ namespace Game_Server
             {
                 _packet.Write(_fromId);
                 _packet.Write(_msg);
+
+                SendTCPDataToAll(_packet);
+            }
+        }
+        public static void DisconnectPlayer(Player playerToDisconnect)
+        {
+            using (Packet _packet = new Packet((int)ServerPackets.DisconnectPlayer))
+            {
+                _packet.Write(playerToDisconnect.id);
 
                 SendTCPDataToAll(_packet);
             }
