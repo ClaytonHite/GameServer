@@ -9,7 +9,7 @@ namespace Game_Server
     public class Constants
     {
         public const int ExperienceBonus = 1;
-        public const int WeightedDice = 10;
+        public const int WeightedDice = 0;
         public const float PerLevelExperienceMultiplier = 2f; //1.5f would lower experience needed to next level
         public const float firstLevelExpRequirement = 100;
         public const int TICKS_PER_SEC = 30;
