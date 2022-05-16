@@ -201,7 +201,7 @@ namespace Game_Server
             {
                 _packet.Write(_player.id);
                 _packet.Write(_player.username);
-                _packet.Write(_player.spawnPosition);
+                _packet.Write(_player.position);
                 _packet.Write(_player.playerLevel);
                 _packet.Write(_player.playerAvatar);
                 _packet.Write(_player.currentHitPoints);
