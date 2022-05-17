@@ -34,12 +34,17 @@ namespace Game_Server.AIPathfinding
         }
         public float isNear()
         {
+            if (Server.clients[_selectedUnit.currentTargetID].player == null)
+            {
+                ExitedMonsterRange();
+                return 100;
+            }
             return Vector2.Distance(_selectedUnit.monsterPosition, Server.clients[_selectedUnit.currentTargetID].player.position);
         }
         public void Update()
         {
             if(!isActive || _target == null || _selectedUnit.isMoving == true) return;
-            if(_selectedUnit.currentTargetID < 1) return;
+            if (_selectedUnit.currentTargetID < 1) return;
             if(isNear() < 1.75) { return; }
             _selectedUnit.isMoving = true;
             if(movementList == null)
@@ -239,6 +244,8 @@ namespace Game_Server.AIPathfinding
             if (currentPath.Count > 2 && Collider.CheckForCollider(new Vector2(currentPath[1].x, currentPath[1].y)))
             {
                 Vector2 movePosition = new Vector2(currentPath[1].x, currentPath[1].y);
+                Collider.colliderArray[(int)_selectedUnit.monsterPosition.X, (int)_selectedUnit.monsterPosition.Y] = null;
+                Collider.colliderArray[(int)movePosition.X, (int)movePosition.Y] = _selectedUnit.collider;
                 _selectedUnit.collider.Position = movePosition;
                 _selectedUnit.monsterPosition = movePosition;
                 ServerSend.UpdateMonsterPosition(_selectedUnit.monsterID, _selectedUnit.monsterPosition);

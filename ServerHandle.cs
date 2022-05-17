@@ -140,12 +140,17 @@ namespace Game_Server
 
         public static void WelcomeReceived(int _fromClient, Packet _packet)
         {
-            //TODO CHANGES WELCOME RECEIVED TO MINIMUM DATA PASSAGE AND REWRITE NEW PACKET TO SEND THE CLIENTS INFO. 
-            //always pass data the order that we wrote it
-            //----------------check client version or check how many times spammed to login------------------
             int _clientIdCheck = _packet.ReadInt();
             float _clientVersion = _packet.ReadFloat();
-            Console.WriteLine(DateTime.Now + $" -- {Server.clients[_fromClient].tcp.socket.Client.RemoteEndPoint} has connected with ID : {_clientIdCheck} and client version {_clientVersion}.");
+            if (_clientVersion == Client.ClientVersion)
+            {
+                Console.WriteLine(DateTime.Now + $" -- {Server.clients[_fromClient].tcp.socket.Client.RemoteEndPoint} has connected with ID : {_clientIdCheck} and client version {_clientVersion}.");
+            }
+            else
+            {
+                Console.WriteLine(DateTime.Now + $" -- {Server.clients[_fromClient].tcp.socket.Client.RemoteEndPoint} has connected with wrong client version. Sending disconnect.");
+                Server.clients[_fromClient].Disconnect();
+            }
         }
         #endregion
         #region PlayerInput

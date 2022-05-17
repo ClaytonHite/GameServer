@@ -291,11 +291,14 @@ namespace Game_Server
         }
         public static void DisconnectPlayer(Player playerToDisconnect)
         {
-            using (Packet _packet = new Packet((int)ServerPackets.DisconnectPlayer))
+            if (playerToDisconnect != null)
             {
-                _packet.Write(playerToDisconnect.id);
+                using (Packet _packet = new Packet((int)ServerPackets.DisconnectPlayer))
+                {
+                    _packet.Write(playerToDisconnect.id);
 
-                SendTCPDataToAll(_packet);
+                    SendTCPDataToAll(_packet);
+                }
             }
         }
     }

@@ -12,7 +12,7 @@ namespace Game_Server
     class Client
     {
         public static int dataBufferSize = 4096;
-        public static float ClientVersion = 1.0f;
+        public static float ClientVersion = 1.12f;
         public int ConnectionAttempts;
         public int id;
         public Player player;

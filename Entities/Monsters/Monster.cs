@@ -39,7 +39,7 @@ namespace Game_Server
         public int currentTargetID;
         public bool isMoving;
         public bool isAttacking;
-        public Collider collider = new Collider(new Vector2(0,0), false);
+        public Collider collider;
         public List<Item> LootTable = new List<Item>();
         public static void AddMonster(Monster monster)
         {

@@ -13,34 +13,26 @@ namespace Game_Server
         public bool Walkable { get; set; }
         public Vector2 Position;
         public static Dictionary<int, Collider> Colliders = new Dictionary<int, Collider>();
+        public static Collider[,] colliderArray = new Collider[TileMap.mapSize, TileMap.mapSize];
         public Collider(Vector2 Position, bool Walkable)
         {
             colliderId++;
             this.Position = Position;
             this.Walkable = Walkable;
             Colliders.Add(colliderId, this);
+            RegisterColliderArray(this);
         }
         public static bool CheckForCollider(Vector2 position)
         {
-            try
+            if (colliderArray[(int)position.X, (int)position.Y] == null)
             {
-                foreach (Collider collider in Colliders.Values)
-                {
-                    if (collider.Position.X == position.X && collider.Position.Y == position.Y)
-                    {
-                        if (!collider.Walkable)
-                        {
-                            return false;
-                        }
-                    }
-                }
                 return true;
             }
-            catch
+            if (!colliderArray[(int)position.X, (int)position.Y].Walkable)
             {
                 return false;
-                Console.WriteLine("COLLIDERS WERE ACESSED DURING FOREACH LOOP");
             }
+            return true;
         }
         public static void DestorySelf(Vector2 position)
         {
@@ -56,6 +48,10 @@ namespace Game_Server
             {
                 Colliders.Remove(keyToDelete);
             }
+        }
+        public void RegisterColliderArray(Collider collider)
+        {
+            colliderArray[(int)collider.Position.X, (int)collider.Position.Y] = collider;
         }
     }
 }

@@ -61,6 +61,7 @@ namespace Game_Server.AIPathfinding
             foreach (int _key in MonsterManager.monsters.Keys)
             {
                 Monster monster = MonsterManager.monsters[_key];
+                if(_player == null) { return; }
                 float distX = _player.position.X - monster.monsterPosition.X;
                 float distY = _player.position.Y - monster.monsterPosition.Y;
                 if (distX <= playerRange && distX >= (-1) * playerRange &&

@@ -42,6 +42,7 @@ namespace Game_Server
         public bool playerMoving;
         public long ExperienceRequired;
         public long PreviousExperienceRequired;
+        public Collider collider;
         public static Dictionary<int, Client> clients = Server.clients;
 
         public Player(int _id, string _username, List<int> _characterStats, List<string> _characterInfo)
@@ -77,6 +78,7 @@ namespace Game_Server
             isStealth = false;
             ExperienceRequired = (long)LevelUp.ExperienceTableForLevel(playerLevel);
             PreviousExperienceRequired = (long)LevelUp.ExperienceTableForLevel(playerLevel - 1);
+            collider = new Collider(position, true);
             if ((_characterInfo[12]) == "true")
             {
                 isStealth = true;
