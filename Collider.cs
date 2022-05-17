@@ -12,46 +12,49 @@ namespace Game_Server
         public static int colliderId = 0;
         public bool Walkable { get; set; }
         public Vector2 Position;
-        public static Dictionary<int, Collider> Colliders = new Dictionary<int, Collider>();
+        public string Tag;
         public static Collider[,] colliderArray = new Collider[TileMap.mapSize, TileMap.mapSize];
-        public Collider(Vector2 Position, bool Walkable)
+        public Collider(Vector2 Position, bool walkable, string tag)
         {
             colliderId++;
             this.Position = Position;
-            this.Walkable = Walkable;
-            Colliders.Add(colliderId, this);
+            this.Walkable = walkable;
+            this.Tag = tag;
             RegisterColliderArray(this);
         }
         public static bool CheckForCollider(Vector2 position)
         {
+
             if (colliderArray[(int)position.X, (int)position.Y] == null)
             {
                 return true;
             }
+            //if (colliderArray[(int)position.X, (int)position.Y].Walkable && colliderArray[(int)position.X, (int)position.Y].Tag == "Player")
+            //{
+            //    return false;
+            //}
+            //REWORK PATHFINDER TO FIND CLOSEST TILE NEXT TO PLAYER SO IT DOESNT THROW THE TARGET OUT OF THE GRAPH ARRAY BECAUSE IT THINKS IT CANT MOVE ON TOP OF PLAYER.
             if (!colliderArray[(int)position.X, (int)position.Y].Walkable)
             {
                 return false;
             }
             return true;
         }
-        public static void DestorySelf(Vector2 position)
+        public static Collider GetColliders(Vector2 position)
         {
-            int keyToDelete = -1;
-            foreach (KeyValuePair<int, Collider> collider in Colliders)
-            {
-                if (collider.Value.Position.X == position.X && collider.Value.Position.Y == position.Y)
-                {
-                    keyToDelete = collider.Key;
-                }
-            }
-            if (keyToDelete >= 0)
-            {
-                Colliders.Remove(keyToDelete);
-            }
+            return colliderArray[(int)position.X, (int)position.Y];
+        }
+        public void DestorySelf()
+        {
+            UnregisterColliderArray(this);
         }
         public void RegisterColliderArray(Collider collider)
         {
             colliderArray[(int)collider.Position.X, (int)collider.Position.Y] = collider;
+        }
+        public void UnregisterColliderArray(Collider collider)
+        {
+            colliderArray[(int)collider.Position.X, (int)collider.Position.Y] = null;
         }
     }
 }

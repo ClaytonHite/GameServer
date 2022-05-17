@@ -78,7 +78,7 @@ namespace Game_Server
             isStealth = false;
             ExperienceRequired = (long)LevelUp.ExperienceTableForLevel(playerLevel);
             PreviousExperienceRequired = (long)LevelUp.ExperienceTableForLevel(playerLevel - 1);
-            collider = new Collider(position, true);
+            collider = new Collider(position, true, "Player");
             if ((_characterInfo[12]) == "true")
             {
                 isStealth = true;
@@ -101,9 +101,12 @@ namespace Game_Server
                     await Task.Delay((1000 / (1 + (Server.clients[_fromClient].player.playerDexterity / 50))));
                     Server.clients[_fromClient].player.playerMoving = false;
                 });
-                TargetFinder.Update(Server.clients[_fromClient].player);
+                Vector2 playerPos = Server.clients[_fromClient].player.position;
+                Collider.colliderArray[(int)playerPos.X, (int)playerPos.Y] = null;
                 Server.clients[_fromClient].player.currentLocation = location;
                 Server.clients[_fromClient].player.position = location;
+                Collider.colliderArray[(int)location.X, (int)location.Y] = Server.clients[_fromClient].player.collider;
+                TargetFinder.Update(Server.clients[_fromClient].player);
             }
             ServerSend.PlayerPosition(this);
         }

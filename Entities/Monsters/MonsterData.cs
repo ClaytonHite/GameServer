@@ -14,7 +14,7 @@ namespace Game_Server
         {
             Vector2 pos = new Vector2(posX, posY);
             Monster monster = new Monster();
-            monster.collider = new Collider(pos, false);
+            monster.collider = new Collider(pos, false, "Monster");
             if (image == 500)
             {
                 monster.monsterName = "Rat";

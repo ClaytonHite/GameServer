@@ -43,7 +43,7 @@ namespace Game_Server
                         {
                             if (tileName.Contains(mapTileColliders[k]))
                             {
-                                new Collider(new Vector2(i, j), false);
+                                new Collider(new Vector2(i, j), false, "TileMap");
                             }
                         }
                     }
