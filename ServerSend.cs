@@ -14,8 +14,11 @@ namespace Game_Server
     {
         private static void SendTCPData(int _toClient, Packet _packet)
         {
-            _packet.WriteLength();
-            Server.clients[_toClient].tcp.SendData(_packet);
+            if (Server.clients[_toClient].tcp.socket != null)
+            {
+                _packet.WriteLength();
+                Server.clients[_toClient].tcp.SendData(_packet);
+            }
         }
 
         private static void SendUDPData(int _toClient, Packet _packet)
