@@ -241,6 +241,11 @@ namespace Game_Server.AIPathfinding
 
         public void MoveNextTile(List<Node> currentPath)
         {
+            if (!Collider.CheckForCollider(new Vector2(currentPath[currentPath.Count - 1].x, currentPath[currentPath.Count - 1].y)))
+            {
+                movementList = null;
+                return;
+            }
             if (currentPath.Count > 2 && Collider.CheckForCollider(new Vector2(currentPath[1].x, currentPath[1].y)))
             {
                 Vector2 movePosition = new Vector2(currentPath[1].x, currentPath[1].y);

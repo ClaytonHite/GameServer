@@ -9,14 +9,12 @@ namespace Game_Server
 {
     public class Collider
     {
-        public static int colliderId = 0;
         public bool Walkable { get; set; }
         public Vector2 Position;
         public string Tag;
         public static Collider[,] colliderArray = new Collider[TileMap.mapSize, TileMap.mapSize];
         public Collider(Vector2 Position, bool walkable, string tag)
         {
-            colliderId++;
             this.Position = Position;
             this.Walkable = walkable;
             this.Tag = tag;
@@ -44,7 +42,7 @@ namespace Game_Server
         {
             return colliderArray[(int)position.X, (int)position.Y];
         }
-        public void DestorySelf()
+        public void DestroySelf()
         {
             UnregisterColliderArray(this);
         }

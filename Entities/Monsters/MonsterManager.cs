@@ -59,7 +59,7 @@ namespace Game_Server
             Reset(monsterID, monsters[monsterID].monsterAvatar, (int)monsters[monsterID].spawnPosition.X, (int)monsters[monsterID].spawnPosition.Y);
             int addExperienceToPlayer = monsters[monsterID].monsterExperienceGiven;
             TargetFinder.RefreshAfterMonsterDeath(monsters[monsterID]);
-            monsters[monsterID].collider.DestorySelf();
+            monsters[monsterID].collider.DestroySelf();
             monsters.Remove(monsterID);
             LevelUp.AddExperienceToPlayer(_fromClient, addExperienceToPlayer);
             ServerSend.MonsterUpdate(false, Convert.ToString(monsterID), damage, _fromClient);
